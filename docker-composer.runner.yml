@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+
+  #Laravel App
+  runner:
+    build:
+      context: ./docker/php/${DOCKER_PHP_VERSION}
+      dockerfile: Dockerfile.cli
+      args:
+        xdebug_enabled: ${DOCKER_PHP_XDEBUG_ENABLED}
+    image: ${COMPOSE_PROJECT_NAME}-runner
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    environment:
+        XDEBUG_MODE: '${DOCKER_PHP_XDEBUG_MODE:-off}'
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app_network
+    command: php artisan queue:work
+
+networks:
+  app_network:
+    driver: bridge

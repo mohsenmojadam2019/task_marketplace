@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+
+if [ ! -d /.composer ]; then
+    mkdir /.composer
+fi
+
+chmod -R ugo+rw /.composer
+
+echo "Installing Package Dependencies"
+composer install
+
+echo "Running database migrations"
+php artisan migrate
+
+echo "Linking Storage"
+php artisan storage:link
+
+
+echo "Generating IDE Helper Stubs"
+php artisan ide-helper:generate
+php artisan ide-helper:models --nowrite
+
+if [ $# -gt 0 ]; then
+    exec gosu $WWWUSER "$@"
+else
+    /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+fi
