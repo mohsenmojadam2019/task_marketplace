@@ -19,7 +19,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "shab/marketplace": "dev-main"
+        "shab/marketplace": "dev-main",
+        "spatie/laravel-medialibrary": "^11.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -39,7 +40,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "marketplace\\src\\": "vendor/shab/marketplace/src/"
         }
     },
     "scripts": {
